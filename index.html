@@ -51,34 +51,26 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2014-10-25T08:39:37.000Z"><a href="/2014/10/25/hello-world/">10月 25 2014</a></time>
+        <time datetime="2014-10-27T03:32:08.000Z"><a href="/2014/10/27/hello-world/">10月 27 2014</a></time>
       
       
   
-    <h1 class="title"><a href="/2014/10/25/hello-world/">Hello World</a></h1>
+    <h1 class="title"><a href="/2014/10/27/hello-world/">闭锁CountDownLatch的源码实现介绍</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">trobuleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start">Quick Start</h2>
-<h3 id="Create_a_new_post">Create a new post</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
+        <p>  首先，我们先来了解下闭锁的知识。闭锁是一种同步工具类，可以延迟线程的进度直到其到达终止状态。闭锁的作用就相当于一扇门，在闭锁到达结束状态之前，这门一直是关闭的，并且没有任何线程可以通过，当到达结束状态时，这门打开并允许所有的线程通过，当闭锁到达结束状态之后，将不会改变闭锁的状态，一直保持着打开的状态，闭锁可以确保某些活动指导其他活动都完成后才继续执行，下面看一个具体的实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.nine.concurrent;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.CountDownLatch;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CountDownLatchDemo</span> </span>{   </div><div class="line"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">timeTasks</span>(<span class="keyword">int</span> nThreads,<span class="keyword">final</span> Runnable task) {       </div><div class="line"><span class="keyword">final</span> CountDownLatch startGate = <span class="keyword">new</span> CountDownLatch(<span class="number">1</span>) ;     </div><div class="line"><span class="keyword">final</span> CountDownLatch enddGate = <span class="keyword">new</span> CountDownLatch(nThreads);    </div><div class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i&lt;nThreads;i++){</div><div class="line">   Thread t = <span class="keyword">new</span> Thread(){</div><div class="line">   <span class="annotation">@Override</span>            </div><div class="line">   <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span>() {                </div><div class="line">    <span class="keyword">try</span> {</div><div class="line">       startGate.await();                                     </div><div class="line">       task.run(); </div><div class="line">                      </div><div class="line">     } <span class="keyword">catch</span> (InterruptedException e) {</div><div class="line">        e.printStackTrace();</div><div class="line">   }<span class="keyword">finally</span>{</div><div class="line">      enddGate.countDown();     </div><div class="line">   } </div><div class="line">  }</div><div class="line">};</div><div class="line">    t.start(); </div><div class="line">}   </div><div class="line"><span class="keyword">long</span> start = System.nanoTime();</div><div class="line">startGate.countDown();     </div><div class="line">  <span class="keyword">try</span> {</div><div class="line">    enddGate.await();</div><div class="line"> } <span class="keyword">catch</span> (InterruptedException e) {</div><div class="line">   e.printStackTrace();</div><div class="line">}    </div><div class="line"><span class="keyword">long</span> end = System.nanoTime();       </div><div class="line"><span class="keyword">return</span> end-start;</div><div class="line">}    </div><div class="line">}</div></pre></td></tr></table></figure>
 
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+<hr>
+<p>这个demo中，使用了闭锁，而不是在线程创建后就立即启动，启动门，startGate使得主线程能够同时释放所有的工作线程，而结束门，可以使主线程能够能带最后一个线程执行完成，而不是顺序的等待每个线程执行完成。</p>
+<p>下面来介绍下闭锁的具体实现：</p>
+<p>所含方法： await()，await(long, TimeUnit)，countDown，getCount</p>
+<p>内部静态类Sync extends AbstractQueuedSynchronizer</p>
+<p>1、两个公开方法，await和countDown，不存在获取资源的操作，在初始化的时候已经设置state。tryAcquireShared只是做检查操作，如果等于0，就返回1</p>
+<p>countDown做releaseShared操作,它的实现是基于AQS的实现机制。下次重点解读下AQS的原理</p>
 
       
     </div>
