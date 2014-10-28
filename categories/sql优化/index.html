@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>归档：2014 | 不二</title>
+  <title>sql优化 | 不二</title>
   <meta name="author" content="zhenglu">
   
   <meta name="description" content="爱生活，爱coding">
@@ -45,7 +45,7 @@
 <div class="clearfix"></div></header>
   <div id="content" class="inner">
     <div id="main-col" class="alignleft"><div id="wrapper">
-<h2 class="archive-title">2014</h2>
+<h2 class="archive-title category">sql优化</h2>
 
 
   
@@ -134,100 +134,6 @@
           <div class="alignleft">
             <a href="/2014/10/28/sql优化/#more" class="more-link">Read More</a>
           </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-    <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2014-10-27T07:15:50.000Z"><a href="/2014/10/27/hexo/">10月 27 2014</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2014/10/27/hexo/">hexo博客访问速度优化</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>刚刚弄完搞定hexo，deploy到github,访问的时候巨慢。用firebug看了下网络请求，其中两个请求超级慢，一个是google字体，还有一个就是jquery，唉。身在天朝。连上了google都是奢望啊。无奈，只能替换他们。</p>
-<ul>
-<li>google字体替换<br>在hexo\themes\modernist\source\css_base\variable.styl中 找到下面这句</li>
-</ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">https://fonts.googleapis.com/css?family</span>=<span class="string">Droid+Serif:400italic,700italic,400,700</span></div></pre></td></tr></table></figure>
-
-
-<p> 将其注释掉或者干脆删除，然后需要注意得是要先删除public下的css，否则注释的不会起作用</p>
-<ul>
-<li>jquery 替换<br>找到 themes/~/layout/_partial/after_footer.ejs这个文件，里面有一行：</li>
-</ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></div></pre></td></tr></table></figure>
-
-
-<p>把这一行改成下面这个</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"//lib.sinaapp.com/js/jquery/1.8.3/jquery.min.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></div></pre></td></tr></table></figure>
-
-
-<p>这样就不用去访问被墙的googleapis.com。</p>
-<p>然后你重启下服务，看看访问速度是不是快很多了。</p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-    <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2014-10-27T03:32:08.000Z"><a href="/2014/10/27/hello-world/">10月 27 2014</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2014/10/27/hello-world/">闭锁CountDownLatch的源码实现介绍</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>  首先，我们先来了解下闭锁的知识。闭锁是一种同步工具类，可以延迟线程的进度直到其到达终止状态。闭锁的作用就相当于一扇门，在闭锁到达结束状态之前，这门一直是关闭的，并且没有任何线程可以通过，当到达结束状态时，这门打开并允许所有的线程通过，当闭锁到达结束状态之后，将不会改变闭锁的状态，一直保持着打开的状态，闭锁可以确保某些活动指导其他活动都完成后才继续执行，下面看一个具体的实现</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.nine.concurrent;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.CountDownLatch;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CountDownLatchDemo</span> </span>{   </div><div class="line"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">timeTasks</span>(<span class="keyword">int</span> nThreads,<span class="keyword">final</span> Runnable task) {       </div><div class="line"><span class="keyword">final</span> CountDownLatch startGate = <span class="keyword">new</span> CountDownLatch(<span class="number">1</span>) ;     </div><div class="line"><span class="keyword">final</span> CountDownLatch enddGate = <span class="keyword">new</span> CountDownLatch(nThreads);    </div><div class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i&lt;nThreads;i++){</div><div class="line">   Thread t = <span class="keyword">new</span> Thread(){</div><div class="line">   <span class="annotation">@Override</span>            </div><div class="line">   <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span>() {                </div><div class="line">    <span class="keyword">try</span> {</div><div class="line">       startGate.await();                                     </div><div class="line">       task.run(); </div><div class="line">                      </div><div class="line">     } <span class="keyword">catch</span> (InterruptedException e) {</div><div class="line">        e.printStackTrace();</div><div class="line">   }<span class="keyword">finally</span>{</div><div class="line">      enddGate.countDown();     </div><div class="line">   } </div><div class="line">  }</div><div class="line">};</div><div class="line">    t.start(); </div><div class="line">}   </div><div class="line"><span class="keyword">long</span> start = System.nanoTime();</div><div class="line">startGate.countDown();     </div><div class="line">  <span class="keyword">try</span> {</div><div class="line">    enddGate.await();</div><div class="line"> } <span class="keyword">catch</span> (InterruptedException e) {</div><div class="line">   e.printStackTrace();</div><div class="line">}    </div><div class="line"><span class="keyword">long</span> end = System.nanoTime();       </div><div class="line"><span class="keyword">return</span> end-start;</div><div class="line">}    </div><div class="line">}</div></pre></td></tr></table></figure>
-
-<hr>
-<p>这个demo中，使用了闭锁，而不是在线程创建后就立即启动，启动门，startGate使得主线程能够同时释放所有的工作线程，而结束门，可以使主线程能够能带最后一个线程执行完成，而不是顺序的等待每个线程执行完成。</p>
-<p>下面来介绍下闭锁的具体实现：</p>
-<p>所含方法： await()，await(long, TimeUnit)，countDown，getCount</p>
-<p>内部静态类Sync extends AbstractQueuedSynchronizer</p>
-<p>1、两个公开方法，await和countDown，不存在获取资源的操作，在初始化的时候已经设置state。tryAcquireShared只是做检查操作，如果等于0，就返回1</p>
-<p>countDown做releaseShared操作,它的实现是基于AQS的实现机制。下次重点解读下AQS的原理</p>
-
-      
-    </div>
-    <footer>
-      
         
         
       
