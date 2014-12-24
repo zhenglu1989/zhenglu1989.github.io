@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>sql优化 | 不二</title>
+  <title>不要过分依赖debug | 不二</title>
   <meta name="author" content="zhenglu">
   
   <meta name="description" content="爱生活，爱coding">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  
+  <meta property="og:title" content="不要过分依赖debug"/>
   <meta property="og:site_name" content="不二"/>
 
   
@@ -44,48 +44,62 @@
 </nav>
 <div class="clearfix"></div></header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper">
-<h2 class="archive-title category">sql优化</h2>
-
-
-  
-    <article class="post">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
   
   <div class="post-content">
     <header>
       
         <div class="icon"></div>
-        <time datetime="2014-10-28T10:37:11.000Z"><a href="/2014/10/28/sql优化/">10月 28 2014</a></time>
+        <time datetime="2014-12-24T10:43:28.000Z"><a href="/2014/12/24/debug/">12月 24 2014</a></time>
       
       
   
-    <h1 class="title"><a href="/2014/10/28/sql优化/">MySQL order by实现原理分析和Filesort优化</a></h1>
+    <h1 class="title">不要过分依赖debug</h1>
   
 
     </header>
     <div class="entry">
       
-        <p>在MySQL中的ORDER BY有两种排序实现方式:</p>
-<ol>
-<li>利用有序索引获取有序数据</li>
-<li>文件排序<br>在使用explain分析查询的时候，利用有序索引获取有序数据显示Using index。而文件排序显示Using filesort。<h3 id="利用有序索引获取有序数据">利用有序索引获取有序数据</h3>
-取出满足过滤条件作为排序条件的字段，以及可以直接定位到行数据的行指针信息，在 Sort Buffer 中进行实际的排序操作，然后利用排好序的数据根据行指针信息返回表中取得客户端请求的其他字段的数据，再返回给客户端.</li>
-</ol>
-<p>这种方式，在使用explain分析查询的时候，显示Using index。而文件排序显示Using filesort。</p>
-<p>注意：MySQL在查询时最多只能使用一个索引。因此，如果WHERE条件已经占用了索引，那么在排序中就不使用索引了。</p>
-<h4 id="按照索引对结果进行排序：order_by_使用索引是有条件">按照索引对结果进行排序：order by 使用索引是有条件</h4>
-<ul>
-<li>返回选择的字段，即只包括在有选择的此列上（select后面的字段），不一定适应*的情况)：
+        <pre><code>今天看ATA (阿里技术协会）的一些精华文章时，发现一段话很有意义： 
+
+Ken教会了我一个极其重要的习惯：纠错前先思考。如果你一头扎进问题中，你可能只解决了当前出现问题的代码，但如果
+
+你先思考这个错误，这个bug是怎么引入的？你通常发现和纠正一个更高层次的问题，进而改进了系统设计，防止了更多bug的出现。
+
+我认识到这种编程思考模式非常的重要。有些人痴迷于一行行的、使用各种工具来调试所有的东西。但我现在相信思考——不
+
+看代码的思考——是最好的调试途径，因为它能让你开发出更好的软件。
+</code></pre><hr>
+
       
     </div>
     <footer>
       
         
-          <div class="alignleft">
-            <a href="/2014/10/28/sql优化/#more" class="more-link">Read More</a>
-          </div>
+  
+  <div class="categories">
+    <a href="/categories/2014-11/">2014-11</a>
+  </div>
+
         
         
+  <div class="addthis addthis_toolbox addthis_default_style">
+    
+      <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+    
+    
+      <a class="addthis_button_tweet"></a>
+    
+    
+      <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    
+    
+      <a class="addthis_button_pinterest_pinit" pi:pinit:layout="horizontal"></a>
+    
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
+
       
       <div class="clearfix"></div>
     </footer>
@@ -93,14 +107,40 @@
 </article>
 
 
+<section id="comment">
+<!--  <h1 class="title">留言</h1>
 
   
+      <div id="fb-root"></div>
+<script>
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=123456789012345";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+</script>
 
-  <nav id="pagination">
-  
-  
-  <div class="clearfix"></div>
-</nav>
+<div class="fb-comments" data-href="http://yoursite.com/2014/12/24/debug/" data-num-posts="5" data-width="840" data-colorscheme="light"></div>
+      
+  -->
+    <!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"mayiwei"};
+(function() {
+	var ds = document.createElement('script');
+	ds.type = 'text/javascript';ds.async = true;
+	ds.src = 'http://static.duoshuo.com/embed.js';
+	ds.charset = 'UTF-8';
+	(document.getElementsByTagName('head')[0] 
+	|| document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+</script>
+<!-- Duoshuo Comment END -->
+</section>
+
 </div></div>
     <aside id="sidebar" class="alignright">
   <div class="search">
