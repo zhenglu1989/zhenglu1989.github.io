@@ -91,6 +91,48 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2015-02-28T02:37:11.000Z"><a href="/2015/02/28/countdown/">2月 28 2015</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/02/28/countdown/">闭锁CountDownLatch的源码实现介绍</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>  首先，我们先来了解下闭锁的知识。闭锁是一种同步工具类，可以延迟线程的进度直到其到达终止状态。闭锁的作用就相当于一扇门，在闭锁到达结束状态之前，这门一直是关闭的，并且没有任何线程可以通过，当到达结束状态时，这门打开并允许所有的线程通过，当闭锁到达结束状态之后，将不会改变闭锁的状态，一直保持着打开的状态，闭锁可以确保某些活动指导其他活动都完成后才继续执行，下面看一个具体的实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.nine.concurrent;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.CountDownLatch;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CountDownLatchDemo</span> </span>{   </div><div class="line"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">timeTasks</span>(<span class="keyword">int</span> nThreads,<span class="keyword">final</span> Runnable task) {       </div><div class="line"><span class="keyword">final</span> CountDownLatch startGate = <span class="keyword">new</span> CountDownLatch(<span class="number">1</span>) ;     </div><div class="line"><span class="keyword">final</span> CountDownLatch enddGate = <span class="keyword">new</span> CountDownLatch(nThreads);    </div><div class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i&lt;nThreads;i++){</div><div class="line">   Thread t = <span class="keyword">new</span> Thread(){</div><div class="line">   <span class="annotation">@Override</span>            </div><div class="line">   <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span>() {                </div><div class="line">    <span class="keyword">try</span> {</div><div class="line">       startGate.await();                                     </div><div class="line">       task.run(); </div><div class="line">                      </div><div class="line">     } <span class="keyword">catch</span> (InterruptedException e) {</div><div class="line">        e.printStackTrace();</div><div class="line">   }<span class="keyword">finally</span>{</div><div class="line">      enddGate.countDown();     </div><div class="line">   } </div><div class="line">  }</div><div class="line">};</div><div class="line">    t.start(); </div><div class="line">}   </div><div class="line"><span class="keyword">long</span> start = System.nanoTime();</div><div class="line">startGate.countDown();     </div><div class="line">  <span class="keyword">try</span> {</div><div class="line">    enddGate.await();</div><div class="line"> } <span class="keyword">catch</span> (InterruptedException e) {</div><div class="line">   e.printStackTrace();</div><div class="line">}    </div><div class="line"><span class="keyword">long</span> end = System.nanoTime();       </div><div class="line"><span class="keyword">return</span> end-start;</div><div class="line">}    </div><div class="line">}</div></pre></td></tr></table></figure>
+
+<hr>
+<p>这个demo中，使用了闭锁，而不是在线程创建后就立即启动，启动门，startGate使得主线程能够同时释放所有的工作线程，而结束门，可以使主线程能够能带最后一个线程执行完成，而不是顺序的等待每个线程执行完成。</p>
+<p>下面来介绍下闭锁的具体实现：</p>
+<p>所含方法： await()，await(long, TimeUnit)，countDown，getCount</p>
+<p>内部静态类Sync extends AbstractQueuedSynchronizer</p>
+<p>1、两个公开方法，await和countDown，不存在获取资源的操作，在初始化的时候已经设置state。tryAcquireShared只是做检查操作，如果等于0，就返回1</p>
+<p>countDown做releaseShared操作,它的实现是基于AQS的实现机制。下次重点解读下AQS的原理</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+    <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2015-02-28T02:37:11.000Z"><a href="/2015/02/28/threadlocal/">2月 28 2015</a></time>
       
       
@@ -174,7 +216,7 @@
   
     <li><a href="/categories/sql优化/">sql优化</a><small>1</small></li>
   
-    <li><a href="/categories/并发/">并发</a><small>1</small></li>
+    <li><a href="/categories/并发/">并发</a><small>2</small></li>
   
     <li><a href="/categories/感悟/">感悟</a><small>1</small></li>
   
@@ -187,11 +229,11 @@
   <h3 class="title">标签</h3>
   <ul class="entry">
   
-    <li><a href="/tags/hexo/">hexo</a><small>2</small></li>
+    <li><a href="/tags/hexo/">hexo</a><small>1</small></li>
   
     <li><a href="/tags/优化/">优化</a><small>1</small></li>
   
-    <li><a href="/tags/并发/">并发</a><small>1</small></li>
+    <li><a href="/tags/并发/">并发</a><small>2</small></li>
   
   </ul>
 </div>
