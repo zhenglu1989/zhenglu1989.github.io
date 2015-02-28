@@ -55,6 +55,47 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2015-02-28T03:18:22.000Z"><a href="/2015/02/28/debug/">2月 28 2015</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/02/28/debug/">不要过分依赖debug</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <pre><code>今天看ATA (阿里技术协会）的一些精华文章时，发现一段话很有意义： 
+
+Ken教会了我一个极其重要的习惯：纠错前先思考。如果你一头扎进问题中，你可能只解决了当前出现问题的代码，但如果
+
+你先思考这个错误，这个bug是怎么引入的？你通常发现和纠正一个更高层次的问题，进而改进了系统设计，防止了更多bug的出现。
+
+我认识到这种编程思考模式非常的重要。有些人痴迷于一行行的、使用各种工具来调试所有的东西。但我现在相信思考——不
+
+看代码的思考——是最好的调试途径，因为它能让你开发出更好的软件。
+</code></pre>
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+    <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2015-02-28T02:37:11.000Z"><a href="/2015/02/28/threadlocal/">2月 28 2015</a></time>
       
       
@@ -98,48 +139,6 @@
 
 <p>大体流程就是根据当前的线程，得到map对象，然后根据当前的ThreadLocal变量来来移除副本变量。</p>
 <p>到这里我想大家都应该明白了ThreadLocal的基本原理，首先每一个线程内部都有一个ThreadLocal.ThreadLocalMap类型的成员变量threadlocals,这个threadlocal成员变量是一个map类型，key为当前ThreadLocal变量，value为副本变量。初始化的时候，threadlocals是为空的，然后ThreadLocal变量调用get（）或者set（）方法都可以完成对threadlocals成员变量的初始化，其中当前ThreadLocal变量为key，value为当前ThreadLocal变量要保存的副本变量。</p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-    <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2014-12-24T10:43:28.000Z"><a href="/2014/12/24/debug/">12月 24 2014</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2014/12/24/debug/">不要过分依赖debug</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <pre><code>今天看ATA (阿里技术协会）的一些精华文章时，发现一段话很有意义： 
-
-Ken教会了我一个极其重要的习惯：纠错前先思考。如果你一头扎进问题中，你可能只解决了当前出现问题的代码，但如果
-
-你先思考这个错误，这个bug是怎么引入的？你通常发现和纠正一个更高层次的问题，进而改进了系统设计，防止了更多bug的出现。
-
-我认识到这种编程思考模式非常的重要。有些人痴迷于一行行的、使用各种工具来调试所有的东西。但我现在相信思考——不
-
-看代码的思考——是最好的调试途径，因为它能让你开发出更好的软件。
-</code></pre><hr>
 
       
     </div>
@@ -328,11 +327,13 @@ Ken教会了我一个极其重要的习惯：纠错前先思考。如果你一�
   <h3 class="title">分类</h3>
   <ul class="entry">
   
-    <li><a href="/categories/2014-11/">2014-11</a><small>1</small></li>
+    <li><a href="/categories/2014-11/">2014-11</a><small>0</small></li>
   
     <li><a href="/categories/sql优化/">sql优化</a><small>1</small></li>
   
     <li><a href="/categories/并发/">并发</a><small>1</small></li>
+  
+    <li><a href="/categories/感悟/">感悟</a><small>1</small></li>
   
   </ul>
 </div>
