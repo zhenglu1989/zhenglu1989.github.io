@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>归档 | 不二</title>
+  <title>并发 | 不二</title>
   <meta name="author" content="zhenglu">
   
   <meta name="description" content="爱生活，爱coding">
@@ -45,7 +45,7 @@
 <div class="clearfix"></div></header>
   <div id="content" class="inner">
     <div id="main-col" class="alignleft"><div id="wrapper">
-<h2 class="archive-title">归档</h2>
+<h2 class="archive-title tag">并发</h2>
 
 
   
@@ -114,203 +114,9 @@
 
 
   
-    <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2014-12-24T10:43:28.000Z"><a href="/2014/12/24/debug/">12月 24 2014</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2014/12/24/debug/">不要过分依赖debug</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <pre><code>今天看ATA (阿里技术协会）的一些精华文章时，发现一段话很有意义： 
-
-Ken教会了我一个极其重要的习惯：纠错前先思考。如果你一头扎进问题中，你可能只解决了当前出现问题的代码，但如果
-
-你先思考这个错误，这个bug是怎么引入的？你通常发现和纠正一个更高层次的问题，进而改进了系统设计，防止了更多bug的出现。
-
-我认识到这种编程思考模式非常的重要。有些人痴迷于一行行的、使用各种工具来调试所有的东西。但我现在相信思考——不
-
-看代码的思考——是最好的调试途径，因为它能让你开发出更好的软件。
-</code></pre><hr>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-    <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2014-10-28T10:37:11.000Z"><a href="/2014/10/28/sql优化/">10月 28 2014</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2014/10/28/sql优化/">MySQL order by实现原理分析和Filesort优化</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>在MySQL中的ORDER BY有两种排序实现方式:</p>
-<ol>
-<li>利用有序索引获取有序数据</li>
-<li>文件排序<br>在使用explain分析查询的时候，利用有序索引获取有序数据显示Using index。而文件排序显示Using filesort。<h3 id="利用有序索引获取有序数据">利用有序索引获取有序数据</h3>
-取出满足过滤条件作为排序条件的字段，以及可以直接定位到行数据的行指针信息，在 Sort Buffer 中进行实际的排序操作，然后利用排好序的数据根据行指针信息返回表中取得客户端请求的其他字段的数据，再返回给客户端.</li>
-</ol>
-<p>这种方式，在使用explain分析查询的时候，显示Using index。而文件排序显示Using filesort。</p>
-<p>注意：MySQL在查询时最多只能使用一个索引。因此，如果WHERE条件已经占用了索引，那么在排序中就不使用索引了。</p>
-<h4 id="按照索引对结果进行排序：order_by_使用索引是有条件">按照索引对结果进行排序：order by 使用索引是有条件</h4>
-<ul>
-<li>返回选择的字段，即只包括在有选择的此列上（select后面的字段），不一定适应*的情况)：
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2014/10/28/sql优化/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-    <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2014-10-27T07:15:50.000Z"><a href="/2014/10/27/hexo1/">10月 27 2014</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2014/10/27/hexo1/">hexo博客访问速度优化</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>刚刚弄完搞定hexo，deploy到github,访问的时候巨慢。用firebug看了下网络请求，其中两个请求超级慢，一个是google字体，还有一个就是jquery，唉。身在天朝。连上了google都是奢望啊。无奈，只能替换他们。</p>
-<ul>
-<li>google字体替换<br>在hexo\themes\modernist\source\css_base\variable.styl中 找到下面这句</li>
-</ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">https://fonts.googleapis.com/css?family</span>=<span class="string">Droid+Serif:400italic,700italic,400,700</span></div></pre></td></tr></table></figure>
-
-
-<p> 将其注释掉或者干脆删除，然后需要注意得是要先删除public下的css，否则注释的不会起作用</p>
-<ul>
-<li>jquery 替换<br>找到 themes/~/layout/_partial/after_footer.ejs这个文件，里面有一行：</li>
-</ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></div></pre></td></tr></table></figure>
-
-
-<p>把这一行改成下面这个</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"//lib.sinaapp.com/js/jquery/1.8.3/jquery.min.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></div></pre></td></tr></table></figure>
-
-
-<p>这样就不用去访问被墙的googleapis.com。</p>
-<p>然后你重启下服务，看看访问速度是不是快很多了。</p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-    <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2014-10-27T07:15:50.000Z"><a href="/2014/10/27/hexo/">10月 27 2014</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2014/10/27/hexo/">hexo博客访问速度优化</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>刚刚弄完搞定hexo，deploy到github,访问的时候巨慢。用firebug看了下网络请求，其中两个请求超级慢，一个是google字体，还有一个就是jquery，唉。身在天朝。连上了google都是奢望啊。无奈，只能替换他们。</p>
-<ul>
-<li>google字体替换<br>在hexo\themes\modernist\source\css_base\variable.styl中 找到下面这句</li>
-</ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">https://fonts.googleapis.com/css?family</span>=<span class="string">Droid+Serif:400italic,700italic,400,700</span></div></pre></td></tr></table></figure>
-
-
-<p> 将其注释掉或者干脆删除，然后需要注意得是要先删除public下的css，否则注释的不会起作用</p>
-<ul>
-<li>jquery 替换<br>找到 themes/~/layout/_partial/after_footer.ejs这个文件，里面有一行：</li>
-</ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></div></pre></td></tr></table></figure>
-
-
-<p>把这一行改成下面这个</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"//lib.sinaapp.com/js/jquery/1.8.3/jquery.min.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></div></pre></td></tr></table></figure>
-
-
-<p>这样就不用去访问被墙的googleapis.com。</p>
-<p>然后你重启下服务，看看访问速度是不是快很多了。</p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
 
   <nav id="pagination">
   
-  
-    <a href="/archives/page/2/" class="alignright next">下一页</a>
   
   <div class="clearfix"></div>
 </nav>
