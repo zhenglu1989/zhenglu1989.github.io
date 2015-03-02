@@ -57,6 +57,56 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2015-03-02T08:27:13.000Z"><a href="/2015/03/02/mac-2/">3月 2 2015</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/03/02/mac-2/">mac 配置maven</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>本机OS X：10.9，未安装XCode，</p>
+<p>/usr/share/java目录下只有Stubs目录。</p>
+<p>下载maven：<a href="http://maven.apache.org/" target="_blank" rel="external">http://maven.apache.org/</a></p>
+<p>下载了lastest version，文件名：apache-maven-3.2.1-bin.tar.gz<br>给.tar.gz压缩包解压：</p>
+<figure class="highlight linux"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tar -xvf ~<span class="regexp">/Downloads/apache</span>-maven-<span class="number">3.2</span>.<span class="number">1</span>-bin.tar.gz</div></pre></td></tr></table></figure>
+
+<p>`<br>将解压在当前目录下。</p>
+<p>将解压后的apache-maven-3.2.1文件夹移到/usr/local/maven目录（不存在则新建）下，并重命名为maven3.2.1<br>即：</p>
+<p>/usr/local/maven/maven3.2.1 </p>
+<p>1.使用touch命令在～目录(用户目录)下创建.bash_profile文件</p>
+<p>2.打开.bash_profile文件</p>
+<figure class="highlight linux"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">vi</span> .bash_profile</div></pre></td></tr></table></figure>
+
+<p>3.输入以下内容：</p>
+<figure class="highlight linux"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">M2_HOME=/Users/tom/TYDOC/apache-maven-<span class="number">3.2</span>.<span class="number">1</span></div><div class="line">PATH=<span class="variable">$M2_HOME</span>/bin:<span class="variable">$PATH</span></div><div class="line"><span class="keyword">export</span> M2_HOME</div><div class="line"><span class="keyword">export</span> PATH</div></pre></td></tr></table></figure>
+
+<p>4.保存退出，使用source .bash_profile命令使修改的环境变量配置生效，</p>
+<p>5.mvn -v 测试是否安装成功 </p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+    <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2015-03-02T08:19:09.000Z"><a href="/2015/03/02/mac-1/">3月 2 2015</a></time>
       
       
@@ -229,52 +279,6 @@
 
 
   
-    <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2014-10-28T10:37:11.000Z"><a href="/2014/10/28/sql优化/">10月 28 2014</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2014/10/28/sql优化/">MySQL order by实现原理分析和Filesort优化</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>在MySQL中的ORDER BY有两种排序实现方式:</p>
-<ol>
-<li>利用有序索引获取有序数据</li>
-<li>文件排序<br>在使用explain分析查询的时候，利用有序索引获取有序数据显示Using index。而文件排序显示Using filesort。<h3 id="利用有序索引获取有序数据">利用有序索引获取有序数据</h3>
-取出满足过滤条件作为排序条件的字段，以及可以直接定位到行数据的行指针信息，在 Sort Buffer 中进行实际的排序操作，然后利用排好序的数据根据行指针信息返回表中取得客户端请求的其他字段的数据，再返回给客户端.</li>
-</ol>
-<p>这种方式，在使用explain分析查询的时候，显示Using index。而文件排序显示Using filesort。</p>
-<p>注意：MySQL在查询时最多只能使用一个索引。因此，如果WHERE条件已经占用了索引，那么在排序中就不使用索引了。</p>
-<h4 id="按照索引对结果进行排序：order_by_使用索引是有条件">按照索引对结果进行排序：order by 使用索引是有条件</h4>
-<ul>
-<li>返回选择的字段，即只包括在有选择的此列上（select后面的字段），不一定适应*的情况)：
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2014/10/28/sql优化/#more" class="more-link">Read More</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
 
   <nav id="pagination">
   
@@ -299,7 +303,7 @@
   
     <li><a href="/categories/2014-11/">2014-11</a><small>0</small></li>
   
-    <li><a href="/categories/mac/">mac</a><small>1</small></li>
+    <li><a href="/categories/mac/">mac</a><small>2</small></li>
   
     <li><a href="/categories/sql优化/">sql优化</a><small>1</small></li>
   
@@ -318,7 +322,7 @@
   
     <li><a href="/tags/hexo/">hexo</a><small>1</small></li>
   
-    <li><a href="/tags/mac/">mac</a><small>1</small></li>
+    <li><a href="/tags/mac/">mac</a><small>2</small></li>
   
     <li><a href="/tags/优化/">优化</a><small>1</small></li>
   

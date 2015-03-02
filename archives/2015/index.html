@@ -57,6 +57,56 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2015-03-02T08:27:13.000Z"><a href="/2015/03/02/mac-2/">3月 2 2015</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/03/02/mac-2/">mac 配置maven</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>本机OS X：10.9，未安装XCode，</p>
+<p>/usr/share/java目录下只有Stubs目录。</p>
+<p>下载maven：<a href="http://maven.apache.org/" target="_blank" rel="external">http://maven.apache.org/</a></p>
+<p>下载了lastest version，文件名：apache-maven-3.2.1-bin.tar.gz<br>给.tar.gz压缩包解压：</p>
+<figure class="highlight linux"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tar -xvf ~<span class="regexp">/Downloads/apache</span>-maven-<span class="number">3.2</span>.<span class="number">1</span>-bin.tar.gz</div></pre></td></tr></table></figure>
+
+<p>`<br>将解压在当前目录下。</p>
+<p>将解压后的apache-maven-3.2.1文件夹移到/usr/local/maven目录（不存在则新建）下，并重命名为maven3.2.1<br>即：</p>
+<p>/usr/local/maven/maven3.2.1 </p>
+<p>1.使用touch命令在～目录(用户目录)下创建.bash_profile文件</p>
+<p>2.打开.bash_profile文件</p>
+<figure class="highlight linux"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">vi</span> .bash_profile</div></pre></td></tr></table></figure>
+
+<p>3.输入以下内容：</p>
+<figure class="highlight linux"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">M2_HOME=/Users/tom/TYDOC/apache-maven-<span class="number">3.2</span>.<span class="number">1</span></div><div class="line">PATH=<span class="variable">$M2_HOME</span>/bin:<span class="variable">$PATH</span></div><div class="line"><span class="keyword">export</span> M2_HOME</div><div class="line"><span class="keyword">export</span> PATH</div></pre></td></tr></table></figure>
+
+<p>4.保存退出，使用source .bash_profile命令使修改的环境变量配置生效，</p>
+<p>5.mvn -v 测试是否安装成功 </p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+    <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2015-03-02T08:19:09.000Z"><a href="/2015/03/02/mac-1/">3月 2 2015</a></time>
       
       
@@ -251,7 +301,7 @@
   
     <li><a href="/categories/2014-11/">2014-11</a><small>0</small></li>
   
-    <li><a href="/categories/mac/">mac</a><small>1</small></li>
+    <li><a href="/categories/mac/">mac</a><small>2</small></li>
   
     <li><a href="/categories/sql优化/">sql优化</a><small>1</small></li>
   
@@ -270,7 +320,7 @@
   
     <li><a href="/tags/hexo/">hexo</a><small>1</small></li>
   
-    <li><a href="/tags/mac/">mac</a><small>1</small></li>
+    <li><a href="/tags/mac/">mac</a><small>2</small></li>
   
     <li><a href="/tags/优化/">优化</a><small>1</small></li>
   

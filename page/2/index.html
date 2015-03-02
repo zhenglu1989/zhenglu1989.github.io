@@ -53,6 +53,52 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2014-10-28T10:37:11.000Z"><a href="/2014/10/28/sql优化/">10月 28 2014</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2014/10/28/sql优化/">MySQL order by实现原理分析和Filesort优化</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>在MySQL中的ORDER BY有两种排序实现方式:</p>
+<ol>
+<li>利用有序索引获取有序数据</li>
+<li>文件排序<br>在使用explain分析查询的时候，利用有序索引获取有序数据显示Using index。而文件排序显示Using filesort。<h3 id="利用有序索引获取有序数据">利用有序索引获取有序数据</h3>
+取出满足过滤条件作为排序条件的字段，以及可以直接定位到行数据的行指针信息，在 Sort Buffer 中进行实际的排序操作，然后利用排好序的数据根据行指针信息返回表中取得客户端请求的其他字段的数据，再返回给客户端.</li>
+</ol>
+<p>这种方式，在使用explain分析查询的时候，显示Using index。而文件排序显示Using filesort。</p>
+<p>注意：MySQL在查询时最多只能使用一个索引。因此，如果WHERE条件已经占用了索引，那么在排序中就不使用索引了。</p>
+<h4 id="按照索引对结果进行排序：order_by_使用索引是有条件">按照索引对结果进行排序：order by 使用索引是有条件</h4>
+<ul>
+<li>返回选择的字段，即只包括在有选择的此列上（select后面的字段），不一定适应*的情况)：
+      
+    </div>
+    <footer>
+      
+        
+          <div class="alignleft">
+            <a href="/2014/10/28/sql优化/#more" class="more-link">Read More</a>
+          </div>
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2014-10-27T07:15:50.000Z"><a href="/2014/10/27/hexo/">10月 27 2014</a></time>
       
       
@@ -122,7 +168,7 @@
   
     <li><a href="/categories/2014-11/">2014-11</a><small>0</small></li>
   
-    <li><a href="/categories/mac/">mac</a><small>1</small></li>
+    <li><a href="/categories/mac/">mac</a><small>2</small></li>
   
     <li><a href="/categories/sql优化/">sql优化</a><small>1</small></li>
   
@@ -141,7 +187,7 @@
   
     <li><a href="/tags/hexo/">hexo</a><small>1</small></li>
   
-    <li><a href="/tags/mac/">mac</a><small>1</small></li>
+    <li><a href="/tags/mac/">mac</a><small>2</small></li>
   
     <li><a href="/tags/优化/">优化</a><small>1</small></li>
   
