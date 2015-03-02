@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>hexo | 不二</title>
+  <title>mac | 不二</title>
   <meta name="author" content="zhenglu">
   
   <meta name="description" content="爱生活，爱coding">
@@ -47,7 +47,7 @@
 <div class="clearfix"></div></header>
   <div id="content" class="inner">
     <div id="main-col" class="alignleft"><div id="wrapper">
-<h2 class="archive-title tag">hexo</h2>
+<h2 class="archive-title tag">mac</h2>
 
 
   
@@ -57,36 +57,19 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2014-10-27T07:15:50.000Z"><a href="/2014/10/27/hexo/">10月 27 2014</a></time>
+        <time datetime="2015-03-02T08:19:09.000Z"><a href="/2015/03/02/mac-1/">3月 2 2015</a></time>
       
       
   
-    <h1 class="title"><a href="/2014/10/27/hexo/">hexo博客访问速度优化</a></h1>
+    <h1 class="title"><a href="/2015/03/02/mac-1/">serureCRT for mac 记不住密码</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <p>刚刚弄完搞定hexo，deploy到github,访问的时候巨慢。用firebug看了下网络请求，其中两个请求超级慢，一个是google字体，还有一个就是jquery，唉。身在天朝。连上了google都是奢望啊。无奈，只能替换他们。</p>
-<ul>
-<li>google字体替换<br>在hexo\themes\modernist\source\css_base\variable.styl中 找到下面这句</li>
-</ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">https://fonts.googleapis.com/css?family</span>=<span class="string">Droid+Serif:400italic,700italic,400,700</span></div></pre></td></tr></table></figure>
-
-
-<p> 将其注释掉或者干脆删除，然后需要注意得是要先删除public下的css，否则注释的不会起作用</p>
-<ul>
-<li>jquery 替换<br>找到 themes/~/layout/_partial/after_footer.ejs这个文件，里面有一行：</li>
-</ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></div></pre></td></tr></table></figure>
-
-
-<p>把这一行改成下面这个</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"//lib.sinaapp.com/js/jquery/1.8.3/jquery.min.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></div></pre></td></tr></table></figure>
-
-
-<p>这样就不用去访问被墙的googleapis.com。</p>
-<p>然后你重启下服务，看看访问速度是不是快很多了。</p>
+        <p>我们安装完SecureCRT for Mac之后<br>会发现保存密码的功能是不能使用的，这是为什么呢，这个这么方便的功能居然不能使用。</p>
+<p>其实这是因为SecureCRT默认设置为使用Mac OS自带的“钥匙串访问[Keychain]”来保存密码，只要取消掉这个选项就能用<br>SecureCRT自己的保存密码功能了，至于如何用钥匙串访问来保存密码我也还不知道呢。</p>
+<p>取消这个选项的方式，请打开SecureCRT的全局选项，在主菜单Preferences，或者COMMAND键加逗号，打开之后在<br>Advanced页签下，取消掉Use Keychain即可 </p>
 
       
     </div>
