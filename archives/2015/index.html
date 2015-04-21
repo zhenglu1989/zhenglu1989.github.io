@@ -57,6 +57,83 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2015-04-21T05:26:43.000Z"><a href="/2015/04/21/20150421/">4月 21 2015</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/04/21/20150421/"></a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>title: “zookeeper简介”<br>date: 2015-04-21 11:31:55</p>
+<h2 id="tags:zookeeper">tags:zookeeper</h2>
+<p>ZooKeeper是一个高性能的用于协调分布式应用程序的服务。它将公共服务，比如命名、配置管理、同步化和集群服务封装进一个简单的接口，可以直接用于实现共识（consensus）、集群管理、领导者选举和存在（presence ）协议。可以在其上构建自己的分布式应用程序。</p>
+<p>ZooKeeper使用一种类似文件系统目录树的数据模型，它可以运行于Java上并且具有Java和C的封装。</p>
+<h3 id="ZooKeeper的设计目标">ZooKeeper的设计目标</h3>
+<p>简单——ZooKeeper允许分布式进程之间通过一个共享的层级命名空间来相互协作，这个命名空间以类似于文件系统的方式组织起来。命名空间中的数据单元被称为znode，它相当于文件或者目录。与典型文件系统不同的是，文件系统用于持久化存储，而ZooKeeper的数据是保持在内存中的，这意味着ZooKeeper能达到很高的吞吐量和低延迟。</p>
+<pre><code> ZooKeeper的实现十分注重高性能、高可用性，和严格的顺序访问。高性能使得ZooKeeper能用于大规模分布式系统，高可用性能避免单点故障，严格的顺序化意味着复杂的同步操作可以在客户端实现。
+</code></pre><p>集群化——ZooKeeper本身也是有集群化的。如下图：</p>
+<pre><code>客户端与单个服务端相连，它维持一个TCP连接，在其上发送请求，获得响应，获得监控事件和发送心跳检测。如果到服务端的TCP连接断了，客户端会连接另一个服务端。组成ZooKeeper服务的每个服务端都知道其它服务端的存在，它们维护一个服务端状态的内存镜像，连同事务日志和快照保存在持久化存储中，只要大部分服务端可用，ZooKeeper服务就可用。
+</code></pre><p>顺序化——ZooKeeper为每个更新操作都标记一个号码以反映事务的顺序。后来的操作使用这个顺序来实现高度的抽象，比如同步原语。</p>
+<p>快速——这个特性在以读操作为主的工作中尤为明显。ZooKeeper应用程序运行于数以千计的机器中，当读操作与写操作的比例为10:1时，ZooKeeper能获得最佳性能。</p>
+<p>数据模型和层级命名空间</p>
+<p>ZooKeeper提供的命名空间极像一个标准的文件系统，一个名字是一个以/分隔的路径元素的序列，ZooKeeper命名空间的每个节点通过路径来标识。</p>
+<p>节点和临时节点</p>
+<p>与标准文件系统不同，ZooKeeper命名空间中的所有节点都可以有数据和子节点，这就像文件系统中允许一个文件同时是一个目录。（ZooKeeper被设计用来存储管理服务的数据：状态信息、配置、位置信息等，所以每个节点存储的数据通常很小，几字节到几K字节不等。）我们使用znode这个术语来表示ZooKeeper的数据节点。</p>
+<p>znode维持一个stat结构，它包含数据变化的版本号、ACL变化和时间戳，以允许cache校验和协调化的更新。每当znode的数据变化时，版本号将增加。一个客户端收到数据时，它也会收到数据的版本号。</p>
+<p>保存在每个znode中的数据都是自动读写的。读操作获取znode的所有数据，写操作替换掉znode的所有数据。每个节点有一个访问控制表（ACL）来限制谁能做哪些操作。</p>
+<p>ZooKeeper也有临时节点的概念，这些znode只存在于创建znode的会话中。当会话结束，这些节点也就被删除了。</p>
+<p>条件化更新和监控</p>
+<p>ZooKeeper支持监控的概念。客户端可以在zonode上设置一个观察员。这个观察员会在znode发生变化时触发和移除。当观察员被触发时，客户端会接收到一个说明znode发生变化的包。如果客户端和服务端的连接断了，客户端会收到一个本地的通知。这些可以用于[tbd]</p>
+<p>保证</p>
+<p>ZooKeeper非常快，也非常简单。因为它的目标是成为构建复杂服务的基础，所以它提供一系列保证：</p>
+<p>顺序一致性——来自客户端的更新操作将以它们发送的顺序来执行。<br>原子性——更新操作只有成功和失败两种结果，没有局部化结果。<br>单个系统镜像——不管客户端连接的服务器是哪个，所有客户端看到的服务都是一个样子。<br>可靠性——一旦更新操作被执行，它将被持久化保存直到被下次更新所覆盖。<br>及时性——客户端所看到的系统在一个时间范围内是最新的。</p>
+<p>简单的API</p>
+<p>ZooKeeper的一个设计目标是易于编程。所以，它只支持如下操作：</p>
+<p>create</p>
+<pre><code>在命名空间的某个位置创建一个节点
+</code></pre><p>delete</p>
+<pre><code>删除一个节点
+</code></pre><p>exists</p>
+<pre><code>测试某位置的节点是否存在
+</code></pre><p>get data</p>
+<pre><code>从一个节点读取数据
+</code></pre><p>set data</p>
+<pre><code>往一个节点写数据
+</code></pre><p>get children</p>
+<pre><code>获取一个节点的子节点列表
+</code></pre><p>sync</p>
+<p>等待数据被传播以同步数据</p>
+<p>实现</p>
+<p>下图从较高层次说明了ZooKeeper的构成。除了请求处理单元，组成ZooKeeper服务的每个服务端都会备份它的每个组件。</p>
+<p>集群数据库是存在于内存中的数据库，保存命名空间的所有数据。更新操作会被记录到硬盘中以便恢复，写操作先被序列化到硬盘中，再应用到内存数据库中。</p>
+<p>每个ZooKeeper服务端为一个或多个客户端服务。客户端连接一个服务端来提交请求。读操作请求由每个服务端数据库的本地副本提供服务。能够改变服务状态的请求、写操作请求，按协议处理。</p>
+<p>作为协议的一部分，来自客户端的所有写操作请求会导向一个服务端，叫做leader。其他服务端叫做follower。所有follower从leader接收消息建议并且对消息转发达成一致。由消息传送层来处理失败时替换leader，同步follower和leader的工作。</p>
+<p>ZooKeeper使用自定义的原子性消息协议。由于消息传送层是原子性的，ZooKeeper能够保证本地副本不产生分歧。当leader收到一个写请求，它会计算出当写操作完成后系统将会是什么状态，接着将之转变为一个事务</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+    <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2015-03-02T08:27:13.000Z"><a href="/2015/03/02/mac-2/">3月 2 2015</a></time>
       
       
@@ -214,74 +291,11 @@
 
 
   
-    <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-02-28T02:37:11.000Z"><a href="/2015/02/28/threadlocal/">2月 28 2015</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/02/28/threadlocal/">深入剖析ThreadLocal</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>在并发领域，ThreadLocal应该说是一个不能被忽略的类，今天我们将结合源码来谈一谈几个问题：什么是ThreadLocal，ThreadLocal内部实现原理，如何使用ThreadLocal。</p>
-<p>什么是ThreadLocal</p>
-<p>首先我们先来谈谈什么是ThreadLocal，从字面意思上来看ThreadLocal是线程本地变量的意思，那么到底什么是线程本地变量呢，可以这样理解：ThreadLocal为变量在每个线程中创建了一个副本，那么每个线程可以访问自己内部的副本变量，这样保证了副本变量在线程内部共享，线程之间隔离的效果，理解这一点很重要，这个时候我们大概知道ThreadLocal是为了保证线程范围内的共享数据而生。</p>
-<p>ThreadLocal内部实现原理</p>
-<p>下面我们将结合一个简单的例子来分析一下在什么时候应该使用ThreadLocal，首先看一下下面这段代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">class ConnectionManager {</div><div class="line"> </div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Connection connect = <span class="keyword">null</span>;</div><div class="line"> </div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Connection <span class="title">openConnection</span>() {</div><div class="line">        <span class="keyword">if</span>(connect == <span class="keyword">null</span>){</div><div class="line">            connect = DriverManager.getConnection();</div><div class="line">        }</div><div class="line">        <span class="keyword">return</span> connect;</div><div class="line">    }</div><div class="line"> </div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">closeConnection</span>() {</div><div class="line">        <span class="keyword">if</span>(connect!=<span class="keyword">null</span>)</div><div class="line">            connect.close();</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p>上面这段代码我们简单实现了一个数据库连接池，这段代码在单线程的环境下没有任何问题，但是在多线程的环境下上面这段代码有很大的弊端：首先，这个数据库连接管理类不是线程安全的，因为它的静态方法没有加上同步锁，在执行openConnection()方法的时候可能会创建多个连接，其次由于connect是共享变量，所以在调用共享变量的时候应该用同步机制来保证线程安全。但是我们仔细想想这个connect（就是所谓的数据库连接）有必要共享吗？其实没有必要，我们想一个简单的例子：</p>
-<p>加入张三和李四都需要在各自的事务中完成转入和转出功能，现在假设他们共享一个数据库连接，那么当李四在张三完成转出功能之前已经完成了自己的事务，这时候李四提交事务，然后数据库连接关闭，那么这个时候张三再也完不成装出功能，因为数据库连接已经被关闭。</p>
-<p>那么这个时候用ThreadLocal在也合适不过了，它会为变量在每一个线程中创建一个副本变量，然后这个副本变量在线程内部实现数据共享，在线程之间实现数据隔离，下面我们就分析一下ThreadLocal的源码并且体会一下ThreadLocal的实现原理。</p>
-<p>首先我们看一下ThreadLocal内部几个比较重要的方法：</p>
-<p>1 public T get(){}</p>
-<p>get()方法是得到当前ThreadLocal变量在线程中的副本变量，我们看一下源码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> T <span class="title">get</span>() {</div><div class="line">        Thread t = Thread.currentThread();</div><div class="line">        ThreadLocalMap map = getMap(t);</div><div class="line">        <span class="keyword">if</span> (map != <span class="keyword">null</span>) {</div><div class="line">            ThreadLocalMap.Entry e = map.getEntry(<span class="keyword">this</span>);</div><div class="line">            <span class="keyword">if</span> (e != <span class="keyword">null</span>)</div><div class="line">                <span class="keyword">return</span> (T)e.value;</div><div class="line">        }</div><div class="line">        <span class="keyword">return</span> setInitialValue();</div><div class="line">    }</div></pre></td></tr></table></figure>
-
-<p>首先得到线程t，然后根据当前线程得到ThreadLocalMap，然后根据当前的ThreadLocal的变量来得到副本变量，如果map<br>不为空，就返回副本变量，如果map为空就调用setInitialValue()<br>方法来返回副本变量。这个地方或许很多有有一个疑问，map.getEntry(this)中的this指的是什么，在这里我们可以这样理解this:以往我们理解this都是一个指向调用当前方法的对象的指针，所以这里this就是指向调用get()方法的ThreadLocal变量的地址。那么我们不妨看看setInitialValue()方法的源码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> T <span class="title">setInitialValue</span>() {</div><div class="line">        T value = initialValue();</div><div class="line">        Thread t = Thread.currentThread();</div><div class="line">        ThreadLocalMap map = getMap(t);</div><div class="line">        <span class="keyword">if</span> (map != <span class="keyword">null</span>)</div><div class="line">            map.set(<span class="keyword">this</span>, value);</div><div class="line">        <span class="keyword">else</span></div><div class="line">            createMap(t, value);</div><div class="line">        <span class="keyword">return</span> value;</div><div class="line">    }</div></pre></td></tr></table></figure>
-
-<p>我们接着看看创建ThreadLocalMap的源代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="javadoc">/**</span></div><div class="line"> * Create the map associated with a ThreadLocal. Overridden in</div><div class="line"> * InheritableThreadLocal.</div><div class="line"> *</div><div class="line"> *<span class="javadoctag"> @param</span> t the current thread</div><div class="line"> *<span class="javadoctag"> @param</span> firstValue value for the initial entry of the map</div><div class="line"> *<span class="javadoctag"> @param</span> map the map to store.</div><div class="line"> */</div><div class="line"><span class="keyword">void</span> createMap(Thread t, T firstValue) {</div><div class="line">    t.threadLocals = <span class="keyword">new</span> ThreadLocalMap(<span class="keyword">this</span>, firstValue);</div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p>需要明白一点就可以，每个线程都有一个threadLocals的ThreadLocalMap类型的变量。下面我们看看set（）方法：</p>
-<p>2 public void set() {}</p>
-<p>set()方法就是设置ThreadLocal变量在线程内部的副本变量，让我们看一下源码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span>(T value) {</div><div class="line">        Thread t = Thread.currentThread();</div><div class="line">        ThreadLocalMap map = getMap(t);</div><div class="line">        <span class="keyword">if</span> (map != <span class="keyword">null</span>)</div><div class="line">            map.set(<span class="keyword">this</span>, value);</div><div class="line">        <span class="keyword">else</span></div><div class="line">            createMap(t, value);</div><div class="line">    }</div></pre></td></tr></table></figure>
-
-<p>大体流程还是得到当前的线程，然后获取map对象设置副本变量。下面我们看看remove()方法：</p>
-<p>3 public void remove(){}</p>
-<p>remove（）方法就是移除ThreadLocal变量在线程内部的变量副本。我们看一下源码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span>() {</div><div class="line">         ThreadLocalMap m = getMap(Thread.currentThread());</div><div class="line">         <span class="keyword">if</span> (m != <span class="keyword">null</span>)</div><div class="line">             m.remove(<span class="keyword">this</span>);</div><div class="line">     }</div></pre></td></tr></table></figure>
-
-<p>大体流程就是根据当前的线程，得到map对象，然后根据当前的ThreadLocal变量来来移除副本变量。</p>
-<p>到这里我想大家都应该明白了ThreadLocal的基本原理，首先每一个线程内部都有一个ThreadLocal.ThreadLocalMap类型的成员变量threadlocals,这个threadlocal成员变量是一个map类型，key为当前ThreadLocal变量，value为副本变量。初始化的时候，threadlocals是为空的，然后ThreadLocal变量调用get（）或者set（）方法都可以完成对threadlocals成员变量的初始化，其中当前ThreadLocal变量为key，value为当前ThreadLocal变量要保存的副本变量。</p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
 
   <nav id="pagination">
   
+  
+    <a href="/archives/2015/page/2/" class="alignright next">下一页</a>
   
   <div class="clearfix"></div>
 </nav>

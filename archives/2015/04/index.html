@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>不二</title>
+  <title>归档：2015/4 | 不二</title>
   <meta name="author" content="zhenglu">
   
   <meta name="description" content="爱生活，爱coding">
@@ -47,7 +47,11 @@
 <div class="clearfix"></div></header>
   <div id="content" class="inner">
     <div id="main-col" class="alignleft"><div id="wrapper">
-  <article class="post">
+<h2 class="archive-title">2015/4</h2>
+
+
+  
+    <article class="post">
   
   <div class="post-content">
     <header>
@@ -123,178 +127,14 @@
 
 
 
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-03-02T08:27:13.000Z"><a href="/2015/03/02/mac-2/">3月 2 2015</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/03/02/mac-2/">mac 配置maven</a></h1>
   
 
-    </header>
-    <div class="entry">
-      
-        <p>本机OS X：10.9，未安装XCode，</p>
-<p>/usr/share/java目录下只有Stubs目录。</p>
-<p>下载maven：<a href="http://maven.apache.org/" target="_blank" rel="external">http://maven.apache.org/</a></p>
-<p>下载了lastest version，文件名：apache-maven-3.2.1-bin.tar.gz<br>给.tar.gz压缩包解压：</p>
-<figure class="highlight linux"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tar -xvf ~<span class="regexp">/Downloads/apache</span>-maven-<span class="number">3.2</span>.<span class="number">1</span>-bin.tar.gz</div></pre></td></tr></table></figure>
-
-<p>`<br>将解压在当前目录下。</p>
-<p>将解压后的apache-maven-3.2.1文件夹移到/usr/local/maven目录（不存在则新建）下，并重命名为maven3.2.1<br>即：</p>
-<p>/usr/local/maven/maven3.2.1 </p>
-<p>1.使用touch命令在～目录(用户目录)下创建.bash_profile文件</p>
-<p>2.打开.bash_profile文件</p>
-<figure class="highlight linux"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">vi</span> .bash_profile</div></pre></td></tr></table></figure>
-
-<p>3.输入以下内容：</p>
-<figure class="highlight linux"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">M2_HOME=/Users/tom/TYDOC/apache-maven-<span class="number">3.2</span>.<span class="number">1</span></div><div class="line">PATH=<span class="variable">$M2_HOME</span>/bin:<span class="variable">$PATH</span></div><div class="line"><span class="keyword">export</span> M2_HOME</div><div class="line"><span class="keyword">export</span> PATH</div></pre></td></tr></table></figure>
-
-<p>4.保存退出，使用source .bash_profile命令使修改的环境变量配置生效，</p>
-<p>5.mvn -v 测试是否安装成功 </p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
+  <nav id="pagination">
   
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-03-02T08:19:09.000Z"><a href="/2015/03/02/mac-1/">3月 2 2015</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/03/02/mac-1/">serureCRT for mac 记不住密码</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>我们安装完SecureCRT for Mac之后<br>会发现保存密码的功能是不能使用的，这是为什么呢，这个这么方便的功能居然不能使用。</p>
-<p>其实这是因为SecureCRT默认设置为使用Mac OS自带的“钥匙串访问[Keychain]”来保存密码，只要取消掉这个选项就能用<br>SecureCRT自己的保存密码功能了，至于如何用钥匙串访问来保存密码我也还不知道呢。</p>
-<p>取消这个选项的方式，请打开SecureCRT的全局选项，在主菜单Preferences，或者COMMAND键加逗号，打开之后在<br>Advanced页签下，取消掉Use Keychain即可 </p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-02-28T03:23:25.000Z"><a href="/2015/02/28/debug/">2月 28 2015</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/02/28/debug/">不要过分依赖debug</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>   今天看ATA (阿里技术协会）的一些精华文章时，发现一段话很有意义：<br>   Ken教会了我一个极其重要的习惯：纠错前先思考。如果你一头扎进问题中，你可能只解决了当前出现问题的代码，但如果</p>
-<p>   你先思考这个错误，这个bug是怎么引入的？你通常发现和纠正一个更高层次的问题，进而改进了系统设计，防止了更多bug的出现。</p>
-<p>   我认识到这种编程思考模式非常的重要。有些人痴迷于一行行的、使用各种工具来调试所有的东西。但我现在相信思考——不</p>
-<p>   看代码的思考——是最好的调试途径，因为它能让你开发出更好的软件。</p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-02-28T02:37:11.000Z"><a href="/2015/02/28/countdown/">2月 28 2015</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/02/28/countdown/">闭锁CountDownLatch的源码实现介绍</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>  首先，我们先来了解下闭锁的知识。闭锁是一种同步工具类，可以延迟线程的进度直到其到达终止状态。闭锁的作用就相当于一扇门，在闭锁到达结束状态之前，这门一直是关闭的，并且没有任何线程可以通过，当到达结束状态时，这门打开并允许所有的线程通过，当闭锁到达结束状态之后，将不会改变闭锁的状态，一直保持着打开的状态，闭锁可以确保某些活动指导其他活动都完成后才继续执行，下面看一个具体的实现</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.nine.concurrent;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.CountDownLatch;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CountDownLatchDemo</span> </span>{   </div><div class="line"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">timeTasks</span>(<span class="keyword">int</span> nThreads,<span class="keyword">final</span> Runnable task) {       </div><div class="line"><span class="keyword">final</span> CountDownLatch startGate = <span class="keyword">new</span> CountDownLatch(<span class="number">1</span>) ;     </div><div class="line"><span class="keyword">final</span> CountDownLatch enddGate = <span class="keyword">new</span> CountDownLatch(nThreads);    </div><div class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i&lt;nThreads;i++){</div><div class="line">   Thread t = <span class="keyword">new</span> Thread(){</div><div class="line">   <span class="annotation">@Override</span>            </div><div class="line">   <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span>() {                </div><div class="line">    <span class="keyword">try</span> {</div><div class="line">       startGate.await();                                     </div><div class="line">       task.run(); </div><div class="line">                      </div><div class="line">     } <span class="keyword">catch</span> (InterruptedException e) {</div><div class="line">        e.printStackTrace();</div><div class="line">   }<span class="keyword">finally</span>{</div><div class="line">      enddGate.countDown();     </div><div class="line">   } </div><div class="line">  }</div><div class="line">};</div><div class="line">    t.start(); </div><div class="line">}   </div><div class="line"><span class="keyword">long</span> start = System.nanoTime();</div><div class="line">startGate.countDown();     </div><div class="line">  <span class="keyword">try</span> {</div><div class="line">    enddGate.await();</div><div class="line"> } <span class="keyword">catch</span> (InterruptedException e) {</div><div class="line">   e.printStackTrace();</div><div class="line">}    </div><div class="line"><span class="keyword">long</span> end = System.nanoTime();       </div><div class="line"><span class="keyword">return</span> end-start;</div><div class="line">}    </div><div class="line">}</div></pre></td></tr></table></figure>
-
-<hr>
-<p>这个demo中，使用了闭锁，而不是在线程创建后就立即启动，启动门，startGate使得主线程能够同时释放所有的工作线程，而结束门，可以使主线程能够能带最后一个线程执行完成，而不是顺序的等待每个线程执行完成。</p>
-<p>下面来介绍下闭锁的具体实现：</p>
-<p>所含方法： await()，await(long, TimeUnit)，countDown，getCount</p>
-<p>内部静态类Sync extends AbstractQueuedSynchronizer</p>
-<p>1、两个公开方法，await和countDown，不存在获取资源的操作，在初始化的时候已经设置state。tryAcquireShared只是做检查操作，如果等于0，就返回1</p>
-<p>countDown做releaseShared操作,它的实现是基于AQS的实现机制。下次重点解读下AQS的原理</p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-
-<nav id="pagination">
-  
-  
-    <a href="/page/2/" class="alignright next">下一页</a>
   
   <div class="clearfix"></div>
-</nav></div></div>
+</nav>
+</div></div>
     <aside id="sidebar" class="alignright">
   <div class="search">
   <form>
