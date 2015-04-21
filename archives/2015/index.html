@@ -57,29 +57,28 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2015-04-21T05:26:43.000Z"><a href="/2015/04/21/20150421/">4月 21 2015</a></time>
+        <time datetime="2015-04-21T03:31:55.000Z"><a href="/2015/04/21/20150421/">4月 21 2015</a></time>
       
       
   
-    <h1 class="title"><a href="/2015/04/21/20150421/"></a></h1>
+    <h1 class="title"><a href="/2015/04/21/20150421/">zookeeper简介</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <p>title: “zookeeper简介”<br>date: 2015-04-21 11:31:55</p>
-<h2 id="tags:zookeeper">tags:zookeeper</h2>
-<p>ZooKeeper是一个高性能的用于协调分布式应用程序的服务。它将公共服务，比如命名、配置管理、同步化和集群服务封装进一个简单的接口，可以直接用于实现共识（consensus）、集群管理、领导者选举和存在（presence ）协议。可以在其上构建自己的分布式应用程序。</p>
-<p>ZooKeeper使用一种类似文件系统目录树的数据模型，它可以运行于Java上并且具有Java和C的封装。</p>
+        <p>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ZooKeeper是一个高性能的用于协调分布式应用程序的服务。它将公共服务，比如命名、配置管理、同步化和集群服务封装进一个简单的接口，可以直接用于实现共识（consensus）、集群管理、领导者选举和存在（presence ）协议。可以在其上构建自己的分布式应用程序。</p>
+<p>   ZooKeeper使用一种类似文件系统目录树的数据模型，它可以运行于Java上并且具有Java和C的封装。</p>
 <h3 id="ZooKeeper的设计目标">ZooKeeper的设计目标</h3>
-<p>简单——ZooKeeper允许分布式进程之间通过一个共享的层级命名空间来相互协作，这个命名空间以类似于文件系统的方式组织起来。命名空间中的数据单元被称为znode，它相当于文件或者目录。与典型文件系统不同的是，文件系统用于持久化存储，而ZooKeeper的数据是保持在内存中的，这意味着ZooKeeper能达到很高的吞吐量和低延迟。</p>
-<pre><code> ZooKeeper的实现十分注重高性能、高可用性，和严格的顺序访问。高性能使得ZooKeeper能用于大规模分布式系统，高可用性能避免单点故障，严格的顺序化意味着复杂的同步操作可以在客户端实现。
-</code></pre><p>集群化——ZooKeeper本身也是有集群化的。如下图：</p>
-<pre><code>客户端与单个服务端相连，它维持一个TCP连接，在其上发送请求，获得响应，获得监控事件和发送心跳检测。如果到服务端的TCP连接断了，客户端会连接另一个服务端。组成ZooKeeper服务的每个服务端都知道其它服务端的存在，它们维护一个服务端状态的内存镜像，连同事务日志和快照保存在持久化存储中，只要大部分服务端可用，ZooKeeper服务就可用。
-</code></pre><p>顺序化——ZooKeeper为每个更新操作都标记一个号码以反映事务的顺序。后来的操作使用这个顺序来实现高度的抽象，比如同步原语。</p>
+<p>   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;简单——ZooKeeper允许分布式进程之间通过一个共享的层级命名空间来相互协作，这个命名空间以类似于文件系统的方式组织起来。命名空间中的数据单元被称为znode，它相当于文件或者目录。与典型文件系统不同的是，文件系统用于持久化存储，而ZooKeeper的数据是保持在内存中的，这意味着ZooKeeper能达到很高的吞吐量和低延迟。</p>
+<p>ZooKeeper的实现十分注重高性能、高可用性，和严格的顺序访问。高性能使得ZooKeeper能用于大规模分布式系统，高可用性能避免单点故障，严格的顺序化意味着复杂的同步操作可以在客户端实现。</p>
+<p>集群化——ZooKeeper本身也是有集群化的。如下图：<br><img src="http://zhenglu.qiniudn.com/zkservice.jpg" alt="zookeeep集群"></p>
+<p>客户端与单个服务端相连，它维持一个TCP连接，在其上发送请求，获得响应，获得监控事件和发送心跳检测。如果到服务端的TCP连接断了，客户端会连接另一个服务端。组成ZooKeeper服务的每个服务端都知道其它服务端的存在，它们维护一个服务端状态的内存镜像，连同事务日志和快照保存在持久化存储中，只要大部分服务端可用，ZooKeeper服务就可用。</p>
+<p>顺序化——ZooKeeper为每个更新操作都标记一个号码以反映事务的顺序。后来的操作使用这个顺序来实现高度的抽象，比如同步原语。</p>
 <p>快速——这个特性在以读操作为主的工作中尤为明显。ZooKeeper应用程序运行于数以千计的机器中，当读操作与写操作的比例为10:1时，ZooKeeper能获得最佳性能。</p>
 <p>数据模型和层级命名空间</p>
 <p>ZooKeeper提供的命名空间极像一个标准的文件系统，一个名字是一个以/分隔的路径元素的序列，ZooKeeper命名空间的每个节点通过路径来标识。</p>
+<p><img src="http://zhenglu.qiniudn.com/zknamespace.jpg" alt=""></p>
 <p>节点和临时节点</p>
 <p>与标准文件系统不同，ZooKeeper命名空间中的所有节点都可以有数据和子节点，这就像文件系统中允许一个文件同时是一个目录。（ZooKeeper被设计用来存储管理服务的数据：状态信息、配置、位置信息等，所以每个节点存储的数据通常很小，几字节到几K字节不等。）我们使用znode这个术语来表示ZooKeeper的数据节点。</p>
 <p>znode维持一个stat结构，它包含数据变化的版本号、ACL变化和时间戳，以允许cache校验和协调化的更新。每当znode的数据变化时，版本号将增加。一个客户端收到数据时，它也会收到数据的版本号。</p>
@@ -89,9 +88,8 @@
 <p>ZooKeeper支持监控的概念。客户端可以在zonode上设置一个观察员。这个观察员会在znode发生变化时触发和移除。当观察员被触发时，客户端会接收到一个说明znode发生变化的包。如果客户端和服务端的连接断了，客户端会收到一个本地的通知。这些可以用于[tbd]</p>
 <p>保证</p>
 <p>ZooKeeper非常快，也非常简单。因为它的目标是成为构建复杂服务的基础，所以它提供一系列保证：</p>
-<p>顺序一致性——来自客户端的更新操作将以它们发送的顺序来执行。<br>原子性——更新操作只有成功和失败两种结果，没有局部化结果。<br>单个系统镜像——不管客户端连接的服务器是哪个，所有客户端看到的服务都是一个样子。<br>可靠性——一旦更新操作被执行，它将被持久化保存直到被下次更新所覆盖。<br>及时性——客户端所看到的系统在一个时间范围内是最新的。</p>
-<p>简单的API</p>
-<p>ZooKeeper的一个设计目标是易于编程。所以，它只支持如下操作：</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.顺序一致性——来自客户端的更新操作将以它们发送的顺序来执行。<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.原子性——更新操作只有成功和失败两种结果，没有局部化结果。<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.单个系统镜像——不管客户端连接的服务器是哪个，所有客户端看到的服务都是一个样子。<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.可靠性——一旦更新操作被执行，它将被持久化保存直到被下次更新所覆盖。<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5.及时性——客户端所看到的系统在一个时间范围内是最新的。<br>简单的API</p>
+<p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZooKeeper的一个设计目标是易于编程。所以，它只支持如下操作：</p>
 <p>create</p>
 <pre><code>在命名空间的某个位置创建一个节点
 </code></pre><p>delete</p>
@@ -105,9 +103,9 @@
 </code></pre><p>get children</p>
 <pre><code>获取一个节点的子节点列表
 </code></pre><p>sync</p>
-<p>等待数据被传播以同步数据</p>
-<p>实现</p>
-<p>下图从较高层次说明了ZooKeeper的构成。除了请求处理单元，组成ZooKeeper服务的每个服务端都会备份它的每个组件。</p>
+<pre><code>等待数据被传播以同步数据
+</code></pre><p>实现</p>
+<p>下图从较高层次说明了ZooKeeper的构成。除了请求处理单元，组成ZooKeeper服务的每个服务端都会备份它的每个组件。<br><img src="http://zhenglu.qiniudn.com/zkcomponents.jpg" alt=""></p>
 <p>集群数据库是存在于内存中的数据库，保存命名空间的所有数据。更新操作会被记录到硬盘中以便恢复，写操作先被序列化到硬盘中，再应用到内存数据库中。</p>
 <p>每个ZooKeeper服务端为一个或多个客户端服务。客户端连接一个服务端来提交请求。读操作请求由每个服务端数据库的本地副本提供服务。能够改变服务状态的请求、写操作请求，按协议处理。</p>
 <p>作为协议的一部分，来自客户端的所有写操作请求会导向一个服务端，叫做leader。其他服务端叫做follower。所有follower从leader接收消息建议并且对消息转发达成一致。由消息传送层来处理失败时替换leader，同步follower和leader的工作。</p>
@@ -338,7 +336,7 @@
 <div class="widget tagcloud">
   <h3 class="title">标签云</h3>
   <div class="entry">
-    <a href="/tags/hexo/" style="font-size: 10.00px;">hexo</a><a href="/tags/mac/" style="font-size: 20.00px;">mac</a><a href="/tags/优化/" style="font-size: 10.00px;">优化</a><a href="/tags/并发/" style="font-size: 20.00px;">并发</a>
+    <a href="/tags/hexo/" style="font-size: 15.00px;">hexo</a><a href="/tags/mac/" style="font-size: 20.00px;">mac</a><a href="/tags/zookeeper/" style="font-size: 10.00px;">zookeeper</a><a href="/tags/zookeeper-分布式/" style="font-size: 15.00px;">zookeeper,分布式</a><a href="/tags/优化/" style="font-size: 15.00px;">优化</a><a href="/tags/并发/" style="font-size: 20.00px;">并发</a>
   </div>
 </div>
 
