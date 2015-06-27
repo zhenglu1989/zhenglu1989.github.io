@@ -57,6 +57,199 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2015-06-27T06:49:50.000Z"><a href="/2015/06/27/git/">6月 27 2015</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2015/06/27/git/">git的常用快捷键</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="常用命令">常用命令</h2>
+<p>1.查看当前的分支，修改过，未合并、冲突和未跟踪的文件</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="title">git</span> status</div></pre></td></tr></table></figure>
+
+<p>2.查看修改的文件和原来的区别</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git diff ChangedFile.java  <span class="comment">// 不指定文件时，显示所有的文件更改情况</span></div></pre></td></tr></table></figure>
+
+<p>3.使用本地仓库覆盖修改而未添加到索引区的文件</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="title">git</span> checkout ChangedFile.java</div></pre></td></tr></table></figure>
+
+<p>4.使用本地仓库覆盖修改且添加到索引区的文件</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="operator"><span class="keyword">reset</span> ChangedFile.java</span></div></pre></td></tr></table></figure>
+
+<p>5.显示分支提交情况</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="literal">show</span>-branch <span class="number">2.3</span>.<span class="number">0</span> // 显示分支<span class="number">2.3</span>.<span class="number">0</span>的最近一条提交情况 如果不跟分支名称，将显示所有分支的所有提交情况</div></pre></td></tr></table></figure>
+
+<p>6.显示提交日志</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">log</span></div></pre></td></tr></table></figure>
+
+<p>7.查看某个分支的提交日志</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">log</span> [branch_name]</div></pre></td></tr></table></figure>
+
+<p>8.回滚提交</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="title">git</span> revert commit_name</div></pre></td></tr></table></figure>
+
+<p>9.获取远程仓库的数据</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git fetch -<span class="operator">-a</span> // 获取所有远程仓库的数据</div></pre></td></tr></table></figure>
+
+<p>10.克隆远程仓库到本地</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git clone git<span class="variable">@192</span>.<span class="number">168.1</span>.<span class="number">128</span><span class="symbol">:sabo/ycdd-server</span>.git</div></pre></td></tr></table></figure>
+
+<p>// 这里可能要输入用户名和密码验证，如果生成了SSH key，并添加到了远程仓库中，可以不用输入密码</p>
+<p>// 第一个参数是远程git的地址，可以是SSH或HTTP格式；第二个参数是本地的地址，.为当前文件夹</p>
+<h2 id="提交代码三部曲">提交代码三部曲</h2>
+<h5 id="a-_将修改的文件放到索引区中：">a. 将修改的文件放到索引区中：</h5>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">add</span> ChangedFile.java ChangedFile2.java   <span class="comment"> //后面可以跟多个文件。</span></div></pre></td></tr></table></figure>
+
+<p>支持通配符：</p>
+<p>git add *  // 将所有修改的文件添加到索引区</p>
+<p>git add <em>api</em>entity*.java  // 将文件路径先后包含api和entity的java文件添加到索引区</p>
+<p>// 注意，用*号时，自己不想提交的文件也会添加到索引区提交</p>
+<h5 id="b-_获取远程仓库最新的代码，防止push时出现冲突">b. 获取远程仓库最新的代码，防止push时出现冲突</h5>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git pull origin <span class="number">2.3</span><span class="number">.0</span> <span class="comment">// 这里的origin指的是从远程仓库的哪个分支拉最新数据</span></div></pre></td></tr></table></figure>
+
+<h5 id="c-_将索引区的代码提交到本地仓库中：">c. 将索引区的代码提交到本地仓库中：</h5>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="operator"><span class="keyword">commit</span> -m <span class="string">'修复bug'</span>  // 注意这里的<span class="keyword">commit</span>只是提交到本地仓库，非远程仓库</span></div></pre></td></tr></table></figure>
+
+<p>如果不指定分支号时，默认是master分支</p>
+<p>git pull // 此时需要输入远程仓库的用户名和密码</p>
+<p>也可以git pull git@192.168.1.128:sabo/ycdd-server.git // 此时不需要用户名和密码，拉的是主分支</p>
+<p>如果拉代码时有冲突，需要先解决冲突后才能push</p>
+<h5 id="d-_推送提交的代码到远程仓库">d. 推送提交的代码到远程仓库</h5>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="keyword">push</span> -u origin <span class="number">2.3</span><span class="string">.0</span></div></pre></td></tr></table></figure>
+
+<p>// origin指的是向远程仓库的哪个分支推送提交<br>// -u参数可选，表示强制用户输入提交描述</p>
+<h3 id="分支操作">分支操作</h3>
+<p>1.显示本地仓库所有分支（当前分支以*标示）情况</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="title">git</span> branch</div></pre></td></tr></table></figure>
+
+<p>2.显示远程仓库所有分支（默认分支以*标示）情况</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git branch <span class="operator">-a</span></div></pre></td></tr></table></figure>
+
+<p>3.切换分支并推送数据到远程分支</p>
+<p>   &nbsp;&nbsp;&nbsp;&nbsp;假设原来分支为2.2.0，需要拉取服务器2.3.0分支，并将2.2.0提交的代码合并到2.3.0上</p>
+<p>4.拉取远程仓库2.3.0分支数据到本地仓库</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git pull origin <span class="number">2.3</span><span class="number">.0</span> <span class="comment">// 2.3.0是远程仓库的分支名称</span></div></pre></td></tr></table></figure>
+
+<p>5.切换到2.3.0分支</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git checkout <span class="number">2.3</span><span class="number">.0</span>  <span class="comment">// 2.3.0是分支名称</span></div></pre></td></tr></table></figure>
+
+<p>6.合并2.2.0分支提交的数据</p>
+<p>7.将2.2.0分支的一次提交合并到2.3.0分支，在2.3.0分支执行：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git cherry-pick <span class="number">6235</span>eac4a <span class="comment">// 6235eac4a是其它分支提交时的事务号</span></div></pre></td></tr></table></figure>
+
+<p>// 注意：此时会生成新的事务号</p>
+<p>如果要撤销此操作：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="comment">git</span> <span class="comment">cherry</span><span class="literal">-</span><span class="comment">pick</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">abort</span></div></pre></td></tr></table></figure>
+
+<p>8.将本地2.2.0分支的多次提交合并到2.3.0分支，在2.3.0分支执行：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="operator"><span class="keyword">merge</span> <span class="number">2.2</span><span class="number">.0</span></span></div></pre></td></tr></table></figure>
+
+<p>9.将远程2.2.0分支合并到2.3.0分支，在2.3.0分支执行：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="title">git</span> pull origin <span class="number">2</span>.<span class="number">2</span>.<span class="number">0</span></div></pre></td></tr></table></figure>
+
+<p>10.推送数据（原来分支提交的数据）到远程新的分支</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="keyword">push</span> -u origin <span class="number">2.3</span><span class="string">.0</span></div></pre></td></tr></table></figure>
+
+<h4 id="创建分支并推到远程仓库">创建分支并推到远程仓库</h4>
+<p>以创建分支”1.0_PRE”为例:</p>
+<p>a.在当前的分支上创建分支，新分支包含了当前分支所有的文件：包括提交过的,修改过未提交的,新增的文件等</p>
+<figure class="highlight linux"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="title">git</span> branch <span class="number">1</span>.0_PRE</div></pre></td></tr></table></figure>
+
+<p>b.将新建的1.0_PRE分支推到远程仓库，这里的origin为远程仓库, 1.0_PRE为分支名称</p>
+<figure class="highlight linux"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="keyword">push</span> -u origin <span class="number">1.</span>0_PRE</div></pre></td></tr></table></figure>
+
+<h4 id="分支的代码合并到主干">分支的代码合并到主干</h4>
+<p>以分支”1.0_PRE”的代码合并到master分支为例（确保1.0_PRE的代码都已提交）:</p>
+<p>a.切换到master分支</p>
+<figure class="highlight linux"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="title">git</span> checkout master</div></pre></td></tr></table></figure>
+
+<p>b.拉取远程1.0_PRE代码并合并到本地master分支</p>
+<figure class="highlight linux"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="title">git</span> pull origin <span class="number">1</span>.0_PRE</div></pre></td></tr></table></figure>
+
+<p>// 如果本地1.0_PRE是最新的代码，也可以直接用下面命令（可以作为验证命令）</p>
+<figure class="highlight linux"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="operator"><span class="keyword">merge</span> <span class="number">1.0</span>_PRE</span></div></pre></td></tr></table></figure>
+
+<p>如果有冲突：需要解决冲突 (i. 编辑文件并保存, ii. 利用git add命令将文件添加到索引区, iii. git commit命令提交到本地仓储）</p>
+<p>c.没有冲突后，推送代码到远程master分支</p>
+<figure class="highlight linux"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="keyword">push</span> -u origin master</div></pre></td></tr></table></figure>
+
+<h4 id="删除分支1-0-1并推到远程仓库">删除分支1.0.1并推到远程仓库</h4>
+<p>a.切换到非1.0.1的其它分支</p>
+<figure class="highlight linux"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="title">git</span> checkout <span class="number">1</span>.<span class="number">0</span>.<span class="number">2</span></div></pre></td></tr></table></figure>
+
+<p>b.在本地删除1.0.1分支</p>
+<figure class="highlight linux"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git branch <span class="operator">-d</span> <span class="number">1.0</span>.<span class="number">1</span></div></pre></td></tr></table></figure>
+
+<p>c.将删除推到远程仓库</p>
+<figure class="highlight linux"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="keyword">push</span> origin --<span class="keyword">delete</span> <span class="number">1.0</span>.<span class="number">1</span></div></pre></td></tr></table></figure>
+
+<h4 id="本地分支和远程分支关联">本地分支和远程分支关联</h4>
+<p>切换分支后，每次拉取和推送都需要加上远程分支名，</p>
+<figure class="highlight linux"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="title">git</span> pull origin <span class="number">1</span>.<span class="number">0</span>.2_DEV</div></pre></td></tr></table></figure>
+
+<p>可否简单地写成git pull或git push呢？</p>
+<p>这里将本地的1.0.2_DEV分支和远程的1.0.2_DEV分支关联</p>
+<p>a. 首先确保当前分支为1.0.2_DEV，使用下面命令查看</p>
+<figure class="highlight linux"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="title">git</span> branch</div></pre></td></tr></table></figure>
+
+<p>如果不是1.0.2_DEV，使用下面命令切换为1.0.2_DEV</p>
+<figure class="highlight linux"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="title">git</span> checkout <span class="number">1</span>.<span class="number">0</span>.2_DEV</div></pre></td></tr></table></figure>
+
+<p>b.本地的1.0.2_DEV分支和远程的1.0.2_DEV分支关联</p>
+<figure class="highlight linux"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git branch --<span class="keyword">set</span>-upstream-<span class="keyword">to</span>=origin/<span class="number">1.0</span>.<span class="number">2</span>_DEV</div></pre></td></tr></table></figure>
+
+<h3 id="tag操作">tag操作</h3>
+<p>1.显示所有的标记</p>
+<figure class="highlight linux"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="keyword">tag</span></div></pre></td></tr></table></figure>
+
+<p>或</p>
+<figure class="highlight linux"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git tag <span class="operator">-l</span></div></pre></td></tr></table></figure>
+
+<p>2.创建tag</p>
+<p>   a. 代码合并到master并发布成功后，给当前的master打个标记:1.0_RELEASE</p>
+<figure class="highlight linux"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">git <span class="keyword">tag</span> <span class="number">1.0</span>_RELEASE -<span class="keyword">m</span> <span class="string">'1.0 release version'</span></div></pre></td></tr></table></figure>
+
+<p>   b. 推送到远程仓库</p>
+<figure class="highlight linux"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git push --<span class="keyword">tags</span></div></pre></td></tr></table></figure>
+
+<h4 id="删除tag">删除tag</h4>
+<p>1.删除1.0_TEST标记</p>
+<figure class="highlight linux"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="keyword">push</span> origin --delete <span class="number">1.</span>0_<span class="keyword">TEST</span></div></pre></td></tr></table></figure>
+
+<h4 id="获取tag">获取tag</h4>
+<h5 id="以获取1-0_RELEASE的代码为例">以获取1.0_RELEASE的代码为例</h5>
+<p> a.克隆1.0_RELEASE到本地仓库</p>
+<figure class="highlight linux"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="keyword">clone</span> <span class="number">1.0</span>_RELEASE</div></pre></td></tr></table></figure>
+
+<p>b. 切换到1.0_RELEASE标记版本</p>
+<figure class="highlight linux"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="title">git</span> checkout <span class="number">1</span>.0_RELEASE</div></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+    <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2015-04-21T03:31:55.000Z"><a href="/2015/04/21/20150421/">4月 21 2015</a></time>
       
       
@@ -247,48 +440,6 @@
 
 
   
-    <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-02-28T02:37:11.000Z"><a href="/2015/02/28/countdown/">2月 28 2015</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/02/28/countdown/">闭锁CountDownLatch的源码实现介绍</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>  首先，我们先来了解下闭锁的知识。闭锁是一种同步工具类，可以延迟线程的进度直到其到达终止状态。闭锁的作用就相当于一扇门，在闭锁到达结束状态之前，这门一直是关闭的，并且没有任何线程可以通过，当到达结束状态时，这门打开并允许所有的线程通过，当闭锁到达结束状态之后，将不会改变闭锁的状态，一直保持着打开的状态，闭锁可以确保某些活动指导其他活动都完成后才继续执行，下面看一个具体的实现</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.nine.concurrent;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.CountDownLatch;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CountDownLatchDemo</span> </span>{   </div><div class="line"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">timeTasks</span>(<span class="keyword">int</span> nThreads,<span class="keyword">final</span> Runnable task) {       </div><div class="line"><span class="keyword">final</span> CountDownLatch startGate = <span class="keyword">new</span> CountDownLatch(<span class="number">1</span>) ;     </div><div class="line"><span class="keyword">final</span> CountDownLatch enddGate = <span class="keyword">new</span> CountDownLatch(nThreads);    </div><div class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i&lt;nThreads;i++){</div><div class="line">   Thread t = <span class="keyword">new</span> Thread(){</div><div class="line">   <span class="annotation">@Override</span>            </div><div class="line">   <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span>() {                </div><div class="line">    <span class="keyword">try</span> {</div><div class="line">       startGate.await();                                     </div><div class="line">       task.run(); </div><div class="line">                      </div><div class="line">     } <span class="keyword">catch</span> (InterruptedException e) {</div><div class="line">        e.printStackTrace();</div><div class="line">   }<span class="keyword">finally</span>{</div><div class="line">      enddGate.countDown();     </div><div class="line">   } </div><div class="line">  }</div><div class="line">};</div><div class="line">    t.start(); </div><div class="line">}   </div><div class="line"><span class="keyword">long</span> start = System.nanoTime();</div><div class="line">startGate.countDown();     </div><div class="line">  <span class="keyword">try</span> {</div><div class="line">    enddGate.await();</div><div class="line"> } <span class="keyword">catch</span> (InterruptedException e) {</div><div class="line">   e.printStackTrace();</div><div class="line">}    </div><div class="line"><span class="keyword">long</span> end = System.nanoTime();       </div><div class="line"><span class="keyword">return</span> end-start;</div><div class="line">}    </div><div class="line">}</div></pre></td></tr></table></figure>
-
-<hr>
-<p>这个demo中，使用了闭锁，而不是在线程创建后就立即启动，启动门，startGate使得主线程能够同时释放所有的工作线程，而结束门，可以使主线程能够能带最后一个线程执行完成，而不是顺序的等待每个线程执行完成。</p>
-<p>下面来介绍下闭锁的具体实现：</p>
-<p>所含方法： await()，await(long, TimeUnit)，countDown，getCount</p>
-<p>内部静态类Sync extends AbstractQueuedSynchronizer</p>
-<p>1、两个公开方法，await和countDown，不存在获取资源的操作，在初始化的时候已经设置state。tryAcquireShared只是做检查操作，如果等于0，就返回1</p>
-<p>countDown做releaseShared操作,它的实现是基于AQS的实现机制。下次重点解读下AQS的原理</p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
 
   <nav id="pagination">
   
@@ -336,7 +487,7 @@
 <div class="widget tagcloud">
   <h3 class="title">标签云</h3>
   <div class="entry">
-    <a href="/tags/hexo/" style="font-size: 15.00px;">hexo</a><a href="/tags/mac/" style="font-size: 20.00px;">mac</a><a href="/tags/zookeeper/" style="font-size: 10.00px;">zookeeper</a><a href="/tags/zookeeper-分布式/" style="font-size: 15.00px;">zookeeper,分布式</a><a href="/tags/优化/" style="font-size: 15.00px;">优化</a><a href="/tags/并发/" style="font-size: 20.00px;">并发</a>
+    <a href="/tags/git/" style="font-size: 15.00px;">git</a><a href="/tags/hexo/" style="font-size: 15.00px;">hexo</a><a href="/tags/mac/" style="font-size: 20.00px;">mac</a><a href="/tags/zookeeper/" style="font-size: 10.00px;">zookeeper</a><a href="/tags/zookeeper-分布式/" style="font-size: 15.00px;">zookeeper,分布式</a><a href="/tags/优化/" style="font-size: 15.00px;">优化</a><a href="/tags/并发/" style="font-size: 20.00px;">并发</a>
   </div>
 </div>
 
