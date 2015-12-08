@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>关于我 | 不二:爱生活，爱coding</title>
+  <title>mac,Charles | 不二:爱生活，爱coding</title>
   <meta name="author" content="zhenglu">
   
   <meta name="description" content="，java，并发，zookeeper，分布式，redis，memcache，程序员，">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <meta property="og:title" content="关于我"/>
+  
   <meta property="og:site_name" content="不二:爱生活，爱coding"/>
 
   
@@ -46,22 +46,38 @@
 </nav>
 <div class="clearfix"></div></header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper"><article class="page">
+    <div id="main-col" class="alignleft"><div id="wrapper">
+<h2 class="archive-title tag">mac,Charles</h2>
+
+
+  
+    <article class="post">
   
   <div class="post-content">
     <header>
       
+        <div class="icon"></div>
+        <time datetime="2015-12-08T09:04:41.000Z"><a href="/2015/12/08/charles/">12月 8 2015</a></time>
+      
       
   
-    <h1 class="title">关于我</h1>
+    <h1 class="title"><a href="/2015/12/08/charles/">charles如何对https抓包</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <p>本人简介：12年毕业，Java码农一只，对并发，缓存，各式开源框架感兴趣；有过三年web方面的研发经验，爱好户外旅行，徒步，养多肉。</p>
-<h1 id="Project">Project</h1>
-  <p>斗胆，附上我的<a href="https://github.com/zhenglu1989" title="github" target="_blank" rel="external">Github</a>地址</p>
+        <h3 id="HTTPS抓包步骤">HTTPS抓包步骤</h3>
+<ol>
+<li><p>在 iOS 设备上打开这个网址 <a href="http://www.charlesproxy.com/getssl" target="_blank" rel="external">http://www.charlesproxy.com/getssl</a> 安装 Charles SSL 证书</p>
+</li>
+<li><p>在Charles的工具栏上点击设置按钮，选择Proxy Settings…</p>
+</li>
+<li><p>切换到SSL选项卡，选中Enable SSL Proxying，别急，选完先别关掉，还有下一步</p>
+</li>
+<li><p>这一步跟Fiddler不同，Fiddler安装证书后就可以抓HTTPS网址的包了，Charles则麻烦一些，需要在上一步的SSL选项卡的Locations表单填写要抓包的域名和端口，点击Add按钮，在弹出的表单中Host填写域名，比如填api.instagram.com,Port填443 </p>
+</li>
+</ol>
 
       
     </div>
@@ -69,16 +85,6 @@
       
         
         
-        
-  <div class="addthis addthis_toolbox addthis_default_style">
-    
-    
-    
-    
-    <a class="addthis_counter addthis_pill_style"></a>
-  </div>
-  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js"></script>
-
       
       <div class="clearfix"></div>
     </footer>
@@ -86,27 +92,14 @@
 </article>
 
 
-<section id="comment">
-<!--  <h1 class="title">留言</h1>
 
   
-  -->
-    <!-- Duoshuo Comment BEGIN -->
-<div class="ds-thread"></div>
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"mayiwei"};
-(function() {
-	var ds = document.createElement('script');
-	ds.type = 'text/javascript';ds.async = true;
-	ds.src = 'http://static.duoshuo.com/embed.js';
-	ds.charset = 'UTF-8';
-	(document.getElementsByTagName('head')[0] 
-	|| document.getElementsByTagName('body')[0]).appendChild(ds);
-})();
-</script>
-<!-- Duoshuo Comment END -->
-</section>
 
+  <nav id="pagination">
+  
+  
+  <div class="clearfix"></div>
+</nav>
 </div></div>
     <aside id="sidebar" class="alignright">
   <div class="search">
